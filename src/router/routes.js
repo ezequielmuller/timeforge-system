@@ -2,11 +2,23 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      { path: 'consulta-horarios', component: () => import('pages/ConsultarHorariosPage.vue') },
+      {
+        path: 'cadastros/professores',
+        component: () => import('pages/cadastros/CadastroProfessoresPage.vue'),
+      },
+      {
+        path: 'cadastros/disciplinas',
+        component: () => import('pages/cadastros/CadastroDisciplinasPage.vue'),
+      },
+      {
+        path: 'admin/configuracoes',
+        component: () => import('pages/admin/AdminConfiguracoesPage.vue'),
+      },
+    ],
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
