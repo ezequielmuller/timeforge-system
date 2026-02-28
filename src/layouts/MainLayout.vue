@@ -19,6 +19,10 @@
         <q-btn flat round dense class="q-ml-sm">
           <q-avatar size="32px" color="white" text-color="orange-8" font-size="14px"> A </q-avatar>
         </q-btn>
+        <q-separator vertical color="white" class="q-ma-md" />
+        <q-btn flat round dense icon="logout" color="white">
+          <q-tooltip>Sair do sistema</q-tooltip>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -35,7 +39,7 @@
     >
       <!-- LOGO ÁREA no drawer (só quando expandido) -->
       <div v-if="!miniState" class="drawer-logo q-px-md q-pt-lg q-pb-md">
-        <div class="text-caption text-grey-5 text-uppercase text-weight-bold letter-spacing">
+        <div class="text-caption text-grey-7 text-uppercase text-weight-bold letter-spacing">
           Menu Principal
         </div>
       </div>
@@ -61,7 +65,7 @@
 
         <!-- SEPARATOR COM LABEL -->
         <div v-if="!miniState" class="q-px-md q-pt-md q-pb-xs">
-          <div class="text-caption text-grey-5 text-uppercase text-weight-bold letter-spacing">
+          <div class="text-caption text-grey-7 text-uppercase text-weight-bold letter-spacing">
             Gestão
           </div>
         </div>
@@ -168,7 +172,7 @@
 
         <!-- SEPARATOR INFERIOR -->
         <div v-if="!miniState" class="q-px-md q-pt-md q-pb-xs">
-          <div class="text-caption text-grey-5 text-uppercase text-weight-bold letter-spacing">
+          <div class="text-caption text-grey-7 text-uppercase text-weight-bold letter-spacing">
             Sistema
           </div>
         </div>
