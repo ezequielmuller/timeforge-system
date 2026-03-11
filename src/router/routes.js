@@ -26,7 +26,7 @@ const routes = [
         component: () => import('pages/cadastros/CadastroProfessoresPage.vue'),
       },
       {
-        path: 'cadastros/disciplinas',
+        path: '/cadastros/disciplinas',
         component: () => import('pages/cadastros/CadastroDisciplinasPage.vue'),
       },
       {
