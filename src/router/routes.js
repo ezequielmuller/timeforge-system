@@ -30,6 +30,10 @@ const routes = [
         component: () => import('pages/cadastros/CadastroDisciplinasPage.vue'),
       },
       {
+        path: '/cadastros/turmas',
+        component: () => import('pages/cadastros/CadastroTurmaPage.vue'),
+      },
+      {
         path: 'admin/configuracoes',
         component: () => import('pages/admin/AdminConfiguracoesPage.vue'),
       },
