@@ -16,7 +16,7 @@ const routes = [
   },
 
   {
-    path: '/',
+    path: '/home',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: 'consulta-horarios', component: () => import('pages/ConsultarHorariosPage.vue') },

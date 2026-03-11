@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <!-- HEADER -->
-    <q-header elevated class="header-gradient text-white">
+    <q-header elevated class="header-gradient text-white bg-primary">
       <q-toolbar>
         <!-- BOTÃO HAMBURGER só no mobile -->
         <q-btn flat dense round icon="menu" color="white" class="lt-md" @click="drawer = !drawer" />
@@ -20,7 +20,7 @@
           <q-avatar size="32px" color="white" text-color="orange-8" font-size="14px"> A </q-avatar>
         </q-btn>
         <q-separator vertical color="white" class="q-ma-md" />
-        <q-btn flat round dense icon="logout" color="white">
+        <q-btn flat round dense icon="logout" color="white" @click="sairSistema">
           <q-tooltip>Sair do sistema</q-tooltip>
         </q-btn>
       </q-toolbar>
@@ -201,9 +201,11 @@
 
       <!-- BOTÃO TOGGLE NA BORDA DO DRAWER (só desktop) -->
       <q-btn
+        v-if="!miniState"
         round
         unelevated
-        size="sm"
+        size="md"
+        color="primary"
         :icon="miniState ? 'chevron_right' : 'chevron_left'"
         class="toggle-btn gt-sm"
         @click="toggleMini"
@@ -226,6 +228,11 @@ const miniState = ref(false)
 const cadastrosOpen = ref(false)
 const router = useRouter()
 
+const rota = useRouter()
+const sairSistema = async () => {
+  console.log('login chamado')
+  await rota.push('/login')
+}
 function toggleMini() {
   miniState.value = !miniState.value
 }
@@ -245,7 +252,6 @@ function expandOnly() {
 
 <style scoped>
 .header-gradient {
-  background: #ff6b00 0%;
   box-shadow: 0 2px 12px rgba(255, 107, 0, 0.3);
 }
 
@@ -314,8 +320,6 @@ function expandOnly() {
   top: 54px; /* Abaixo do header */
   right: -12px; /* Metade do botão fora do drawer */
 
-  background: #ffffff;
-  color: #ff6b00;
   border: 2px solid #f0e8e0;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
   z-index: 10;
