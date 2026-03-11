@@ -20,8 +20,9 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: 'consulta-horarios', component: () => import('pages/ConsultarHorariosPage.vue') },
+      { path: '', component: () => import('pages/IndexPage.vue') },
       {
-        path: 'cadastros/professores',
+        path: '/cadastros/professores',
         component: () => import('pages/cadastros/CadastroProfessoresPage.vue'),
       },
       {

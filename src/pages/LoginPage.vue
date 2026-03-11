@@ -87,7 +87,7 @@
           label="Entrar"
           color="primary"
           class="full-width q-mb-md"
-          style="border-radius: 15px !important"
+          style="border-radius: 10px !important"
           unelevated
           size="lg"
           @click="login"
