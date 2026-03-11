@@ -4,7 +4,7 @@
     <div class="row items-center justify-between q-mb-md">
       <div>
         <div class="text-h5 text-weight-bold text-dark" style="letter-spacing: -0.5px">
-          Cadastro de Turmas
+          Cadastro de Salas
         </div>
       </div>
     </div>
@@ -12,12 +12,12 @@
     <!-- Card formulário -->
     <q-card flat bordered class="q-mb-lg" style="border-radius: 16px">
       <q-card-section>
-        <div class="text-subtitle2 text-grey-7 q-mb-md">Nova Turma</div>
+        <div class="text-subtitle2 text-grey-7 q-mb-md">Nova Sala</div>
         <div class="row q-gutter-md items-start">
-          <div class="col-12 col-md-5">
+          <div class="col-12 col-md-4">
             <q-input
               v-model="form.nome"
-              label="Nome da turma"
+              label="Nome da sala"
               outlined
               dense
               color="primary"
@@ -26,7 +26,7 @@
               clearable
             >
               <template v-slot:prepend>
-                <q-icon name="groups" color="primary" size="18px" />
+                <q-icon name="door_front" color="primary" size="18px" />
               </template>
             </q-input>
           </div>
@@ -52,6 +52,25 @@
             </q-input>
           </div>
 
+          <div class="col-12 col-md-3">
+            <q-select
+              v-model="form.tipo"
+              :options="tiposOpcoes"
+              label="Tipo"
+              outlined
+              dense
+              color="primary"
+              bg-color="grey-1"
+              emit-value
+              map-options
+              :rules="[(val) => !!val || 'Selecione o tipo']"
+            >
+              <template v-slot:prepend>
+                <q-icon name="category" color="primary" size="18px" />
+              </template>
+            </q-select>
+          </div>
+
           <div class="col-12 col-md-auto flex items-start">
             <q-btn
               label="Salvar"
@@ -70,7 +89,7 @@
     <q-card flat bordered style="border-radius: 16px">
       <q-card-section class="q-pb-none">
         <div class="row items-center justify-between q-mb-md">
-          <div class="text-subtitle2 text-grey-7">Turmas cadastradas</div>
+          <div class="text-subtitle2 text-grey-7">Salas cadastradas</div>
           <q-input
             v-model="filtro"
             placeholder="Buscar..."
@@ -89,26 +108,33 @@
       </q-card-section>
 
       <q-table
-        :rows="turmasFiltradas"
+        :rows="salasFiltradas"
         :columns="colunas"
         row-key="id"
         flat
         :pagination="{ rowsPerPage: 8 }"
-        no-data-label="Nenhuma turma cadastrada"
+        no-data-label="Nenhuma sala cadastrada"
       >
         <!-- Nome com avatar -->
         <template v-slot:body-cell-nome="props">
           <q-td :props="props">
             <div class="row items-center q-gutter-sm no-wrap">
-              <q-avatar size="32px" color="primary" text-color="white" font-size="12px">
-                {{ iniciais(props.row.nome) }}
+              <q-avatar
+                size="32px"
+                :color="props.row.tipo === 'laboratorio' ? 'teal' : 'secondary'"
+                text-color="white"
+              >
+                <q-icon
+                  :name="props.row.tipo === 'laboratorio' ? 'science' : 'door_front'"
+                  size="16px"
+                />
               </q-avatar>
               <span class="text-weight-medium">{{ props.row.nome }}</span>
             </div>
           </q-td>
         </template>
 
-        <!-- Capacidade com badge -->
+        <!-- Capacidade badge -->
         <template v-slot:body-cell-capacidade="props">
           <q-td :props="props">
             <q-badge
@@ -117,7 +143,25 @@
               style="border-radius: 6px; padding: 4px 10px; font-size: 13px"
             >
               <q-icon name="person" size="12px" class="q-mr-xs" />
-              {{ props.row.capacidade }} alunos
+              {{ props.row.capacidade }} lugares
+            </q-badge>
+          </q-td>
+        </template>
+
+        <!-- Tipo badge -->
+        <template v-slot:body-cell-tipo="props">
+          <q-td :props="props">
+            <q-badge
+              :color="props.row.tipo === 'laboratorio' ? 'teal' : 'blue-grey-4'"
+              text-color="white"
+              style="border-radius: 6px; padding: 4px 12px"
+            >
+              <q-icon
+                :name="props.row.tipo === 'laboratorio' ? 'science' : 'weekend'"
+                size="12px"
+                class="q-mr-xs"
+              />
+              {{ props.row.tipo === 'laboratorio' ? 'Laboratório' : 'Comum' }}
             </q-badge>
           </q-td>
         </template>
@@ -155,16 +199,16 @@
 
   <!-- Dialog editar -->
   <q-dialog v-model="dialogEditar" persistent>
-    <q-card style="min-width: 400px; border-radius: 16px">
+    <q-card style="min-width: 420px; border-radius: 16px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-weight-bold">Editar Turma</div>
+        <div class="text-h6 text-weight-bold">Editar Sala</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <q-card-section class="q-gutter-md">
         <q-input
-          v-model="turmaEditando.nome"
-          label="Nome da turma"
+          v-model="salaEditando.nome"
+          label="Nome da sala"
           outlined
           dense
           color="primary"
@@ -172,11 +216,11 @@
           autofocus
         >
           <template v-slot:prepend>
-            <q-icon name="groups" color="primary" size="18px" />
+            <q-icon name="door_front" color="primary" size="18px" />
           </template>
         </q-input>
         <q-input
-          v-model.number="turmaEditando.capacidade"
+          v-model.number="salaEditando.capacidade"
           label="Capacidade"
           type="number"
           outlined
@@ -189,6 +233,21 @@
             <q-icon name="person_add" color="primary" size="18px" />
           </template>
         </q-input>
+        <q-select
+          v-model="salaEditando.tipo"
+          :options="tiposOpcoes"
+          label="Tipo"
+          outlined
+          dense
+          color="primary"
+          bg-color="grey-1"
+          emit-value
+          map-options
+        >
+          <template v-slot:prepend>
+            <q-icon name="category" color="primary" size="18px" />
+          </template>
+        </q-select>
       </q-card-section>
       <q-card-actions align="right" class="q-px-md q-pb-md">
         <q-btn flat label="Cancelar" color="grey-6" v-close-popup />
@@ -209,10 +268,10 @@
     <q-card style="min-width: 320px; border-radius: 16px">
       <q-card-section class="row items-center q-gutter-sm">
         <q-icon name="warning_amber" color="negative" size="28px" />
-        <div class="text-h6 text-weight-bold">Excluir turma?</div>
+        <div class="text-h6 text-weight-bold">Excluir sala?</div>
       </q-card-section>
       <q-card-section class="q-pt-none text-grey-7">
-        Deseja excluir <strong>{{ turmaExcluindo?.nome }}</strong
+        Deseja excluir <strong>{{ salaExcluindo?.nome }}</strong
         >? Esta ação não pode ser desfeita.
       </q-card-section>
       <q-card-actions align="right" class="q-px-md q-pb-md">
@@ -236,66 +295,67 @@ import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
 
-const form = ref({ nome: '', capacidade: null })
+const tiposOpcoes = [
+  { label: 'Comum', value: 'comum' },
+  { label: 'Laboratório', value: 'laboratorio' },
+]
+
+const form = ref({ nome: '', capacidade: null, tipo: null })
 const filtro = ref('')
 const dialogEditar = ref(false)
 const dialogExcluir = ref(false)
-const turmaEditando = ref({ id: null, nome: '', capacidade: null })
-const turmaExcluindo = ref(null)
+const salaEditando = ref({ id: null, nome: '', capacidade: null, tipo: null })
+const salaExcluindo = ref(null)
 
-const turmas = ref([
-  { id: 1, nome: '1º Ano A', capacidade: 35 },
-  { id: 2, nome: '2º Ano B', capacidade: 30 },
-  { id: 3, nome: '3º Ano C', capacidade: 28 },
+const salas = ref([
+  { id: 1, nome: 'Sala 01', capacidade: 35, tipo: 'comum' },
+  { id: 2, nome: 'Lab. Informática', capacidade: 20, tipo: 'laboratorio' },
+  { id: 3, nome: 'Sala 02', capacidade: 30, tipo: 'comum' },
+  { id: 4, nome: 'Lab. Química', capacidade: 18, tipo: 'laboratorio' },
 ])
 
 const colunas = [
   { name: 'nome', label: 'Nome', field: 'nome', align: 'left', sortable: true },
   { name: 'capacidade', label: 'Capacidade', field: 'capacidade', align: 'center', sortable: true },
+  { name: 'tipo', label: 'Tipo', field: 'tipo', align: 'center', sortable: true },
   { name: 'acoes', label: 'Ações', field: 'acoes', align: 'center' },
 ]
 
-const turmasFiltradas = computed(() => {
-  if (!filtro.value) return turmas.value
-  return turmas.value.filter((t) => t.nome.toLowerCase().includes(filtro.value.toLowerCase()))
+const salasFiltradas = computed(() => {
+  if (!filtro.value) return salas.value
+  const q = filtro.value.toLowerCase()
+  return salas.value.filter(
+    (s) => s.nome.toLowerCase().includes(q) || s.tipo.toLowerCase().includes(q),
+  )
 })
 
-function iniciais(nomeCompleto) {
-  return nomeCompleto
-    .split(' ')
-    .slice(0, 2)
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase()
-}
-
 function salvar() {
-  if (!form.value.nome.trim() || !form.value.capacidade) return
-  turmas.value.push({ id: Date.now(), ...form.value })
-  form.value = { nome: '', capacidade: null }
-  $q.notify({ type: 'positive', message: 'Turma salva com sucesso!', position: 'top' })
+  if (!form.value.nome.trim() || !form.value.capacidade || !form.value.tipo) return
+  salas.value.push({ id: Date.now(), ...form.value })
+  form.value = { nome: '', capacidade: null, tipo: null }
+  $q.notify({ type: 'positive', message: 'Sala salva com sucesso!', position: 'top' })
 }
 
-function editar(turma) {
-  turmaEditando.value = { ...turma }
+function editar(sala) {
+  salaEditando.value = { ...sala }
   dialogEditar.value = true
 }
 
 function salvarEdicao() {
-  const idx = turmas.value.findIndex((t) => t.id === turmaEditando.value.id)
-  if (idx !== -1) turmas.value[idx] = { ...turmaEditando.value }
+  const idx = salas.value.findIndex((s) => s.id === salaEditando.value.id)
+  if (idx !== -1) salas.value[idx] = { ...salaEditando.value }
   dialogEditar.value = false
-  $q.notify({ type: 'positive', message: 'Turma atualizada!', position: 'top' })
+  $q.notify({ type: 'positive', message: 'Sala atualizada!', position: 'top' })
 }
 
-function confirmarExclusao(turma) {
-  turmaExcluindo.value = turma
+function confirmarExclusao(sala) {
+  salaExcluindo.value = sala
   dialogExcluir.value = true
 }
 
 function excluir() {
-  turmas.value = turmas.value.filter((t) => t.id !== turmaExcluindo.value.id)
+  salas.value = salas.value.filter((s) => s.id !== salaExcluindo.value.id)
   dialogExcluir.value = false
-  $q.notify({ type: 'negative', message: 'Turma excluída.', position: 'top' })
+  $q.notify({ type: 'negative', message: 'Sala excluída.', position: 'top' })
 }
 </script>

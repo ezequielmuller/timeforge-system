@@ -122,6 +122,20 @@
             </q-item-section>
             <q-item-section class="text-body2"> Turmas </q-item-section>
           </q-item>
+
+          <q-item
+            clickable
+            v-ripple
+            @click="handleNavigation('/cadastros/sala')"
+            :active="$route.path === '/cadastros/sala'"
+            active-class="item-active"
+            class="submenu-item"
+          >
+            <q-item-section avatar>
+              <q-icon name="meeting_room" size="18px" />
+            </q-item-section>
+            <q-item-section class="text-body2"> Salas </q-item-section>
+          </q-item>
         </q-expansion-item>
 
         <!-- ÍCONE CADASTRO MINI -->

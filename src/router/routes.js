@@ -34,6 +34,10 @@ const routes = [
         component: () => import('pages/cadastros/CadastroTurmaPage.vue'),
       },
       {
+        path: '/cadastros/sala',
+        component: () => import('pages/cadastros/CadastroSalaPage.vue'),
+      },
+      {
         path: 'admin/configuracoes',
         component: () => import('pages/admin/AdminConfiguracoesPage.vue'),
       },
