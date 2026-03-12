@@ -49,8 +49,8 @@
         <q-item
           clickable
           v-ripple
-          @click="handleNavigation('/consulta-horarios')"
-          :active="$route.path === '/consulta-horarios'"
+          @click="handleNavigation('/home')"
+          :active="$route.path === '/home'"
           active-class="item-active"
           class="menu-item"
         >

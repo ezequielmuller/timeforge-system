@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <div class="row items-center justify-between q-mb-lg">
+    <div class="row items-center justify-between q-mb-md">
       <div>
         <div class="text-h5 text-weight-bold text-dark" style="letter-spacing: -0.5px">
           Cadastro de Slots de Horário
