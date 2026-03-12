@@ -38,6 +38,10 @@ const routes = [
         component: () => import('pages/cadastros/CadastroSalaPage.vue'),
       },
       {
+        path: '/cadastros/slots-horarios',
+        component: () => import('pages/cadastros/CadastroSlotHorarioPage.vue'),
+      },
+      {
         path: 'admin/configuracoes',
         component: () => import('pages/admin/AdminConfiguracoesPage.vue'),
       },

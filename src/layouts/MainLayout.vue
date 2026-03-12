@@ -136,6 +136,20 @@
             </q-item-section>
             <q-item-section class="text-body2"> Salas </q-item-section>
           </q-item>
+
+          <q-item
+            clickable
+            v-ripple
+            @click="handleNavigation('/cadastros/slots-horarios')"
+            :active="$route.path === '/cadastros/slots-horarios'"
+            active-class="item-active"
+            class="submenu-item"
+          >
+            <q-item-section avatar>
+              <q-icon name="alarm" size="18px" />
+            </q-item-section>
+            <q-item-section class="text-body2"> Slot de Horários </q-item-section>
+          </q-item>
         </q-expansion-item>
 
         <!-- ÍCONE CADASTRO MINI -->
